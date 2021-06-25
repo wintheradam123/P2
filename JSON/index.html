@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forside</title>
+    <script src="https://code.jquery.com/jquery-1.11.0.js" language="javascript" type="text/javascript"></script>
+
+    <script lang="JavaScript" type="text/javascript">
+        
+            $(document).ready(function (){
+                $("#form").submit (function (event){
+                    var formData = {
+                        name: $("#name").val(),
+                        address: $("#address").val(),
+                        city: $("#city").val()
+                    };
+                    if (localStorage){
+                        var fData = JSON.stringify(formData);
+                        //Math.random().toString(36).substring(2) genererer en tilfældig string, for at undgå at den tidligere data bliver overwritet hver gang der submittes.
+                        localStorage.setItem(Math.random().toString(36).substring(2),fData);
+                        var my_Data = localStorage.getItem("myData");
+                        my_Data = JSON.parse(my_Data);
+                        console.log(localStorage);
+                    } else{alert("LocalStorage virker ikke");}
+
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost/json/process.php",
+                        contentType : 'application/json',
+                        data: fData,
+                        success: function (data){
+                            console.log(data);
+                        },
+                        error : function(xhr, resp, text){
+                            console.log(xhr, resp, text);
+                        }
+                    });
+                    event.preventDefault();
+                })
+            });
+            function showlistfunction(){
+                var nodelist = document.getElementsByTagName("ol").length;
+                //Denne for loop tjekker den om tidligere lister findes, og hvis det gør slettes disse og erstattes senere med en ny
+                for (var i = 0; i < nodelist; i++){
+                    var deletevar = document.getElementById("ll")
+                    deletevar.remove();
+                }
+                var ol = document.createElement("ol");
+                ol.setAttribute("id", "ll")
+                document.body.appendChild(ol);
+                for (var i = 0; i < localStorage.length; i++){
+                    console.log(localStorage.getItem(localStorage.key(i)));
+                    var li = document.createElement("li");
+                    li.appendChild(document.createTextNode(localStorage.getItem(localStorage.key(i))));
+                    li.setAttribute("id", "names");
+                    ol.appendChild(li);
+                }
+            }
+            function hidelistfunction(){
+                var nodelist = document.getElementsByTagName("ol").length;
+                //Denne for loop tjekker den om tidligere lister findes, og hvis det gør slettes disse og erstattes senere med en ny
+                for (var i = 0; i < nodelist; i++){
+                    var deletevar = document.getElementById("ll")
+                    deletevar.remove();
+                }
+            }
+    </script>
+</head>
+<body>
+    <form name="myForm" id="form">
+            <div>
+                <label for="name">Navn:</label>
+                <input type="text" id="name" name="name">
+            </div>
+            <div>
+                <label for="address">Addresse:</label>
+                <input type="text" id="address" name="address">    
+            </div>
+            <div>
+                <label for="city">By:</label>
+                <input type="text" id="city" name="city">    
+            </div>
+            <input type="reset" value="Cancel">
+            <input type="submit" value="Ok">
+    </form> 
+    <br><br>
+    <button onclick="showlistfunction()">Vis Brugere</button>
+    <button onclick="hidelistfunction()">Skjul Brugere</button>
+</body>
+</html>
