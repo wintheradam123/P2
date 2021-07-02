@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Test</title>
+  </head>
+  <body onload="incrementCount(10)">
+    <div class="main_container" id="id_main_container">
+      <div class="photos">
+        <h2>Billede</h2>
+        <img src="/uploads/Stock.jpg" alt="Angry Grandma">
+      </div>
+      <h2>Counter</h2>
+      <div class="container_inner" id="counter_div_id">
+      </div>
+      <div class="container_inner" id="video_player_id">
+        <h2>Video</h2>
+        <video src="/uploads/vid.mp4" autoplay poster="/uploads/dStock.jpg"></video>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    var counter_list = [10,10000,10000];
+    var str_counter_0 = counter_list[0];
+    var str_counter_1 = counter_list[1];
+    var str_counter_2 = counter_list[2];
+    var display_str = "";
+    var counter_div = document.getElementById("counter_div_id");
+
+    function incrementCount(current_count) {
+      setInterval(function() {
+        //clear counter
+        while (counter_div.hasChildNodes()) {
+          counter_div.removeChild(counter_div.lastChild);
+        }
+        str_counter_0++;
+        if (str_counter_0 > 99) {
+          str_counter_0 = 10;
+          str_counter_1++;
+        }
+        display_str = str_counter_2.toString() + str_counter_1.toString() + str_counter_0.toString();
+        for (var i = 0; i < display_str.length; i++) {
+          display_str[i]
+          var new_span = document.createElement('span');
+          new_span.className = 'num_tiles';
+          new_span.innerText = display_str[i];
+          counter_div.appendChild(new_span);
+        }
+      },1000);
+    }
+  </script>
+</html>

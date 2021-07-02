@@ -1,0 +1,10 @@
+body {
+  background-color: lightblue;
+}
+h2.main_container {
+  color: navy;
+}
+.container_inner {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
